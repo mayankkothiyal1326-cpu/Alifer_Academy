@@ -8,6 +8,8 @@ import { WatchHistoryStrip } from './WatchHistoryStrip';
 import { Course } from '../../types';
 import { Search, Sparkles } from 'lucide-react';
 import { CourseDetailModal } from '../learning/CourseDetailModal';
+import { CategoryExploreStrip } from './CategoryExploreStrip';
+import { CategoryView } from '../category/CategoryView';
 
 export const HomeView: React.FC = () => {
   const { 
@@ -16,11 +18,17 @@ export const HomeView: React.FC = () => {
     searchQuery, 
     setSearchQuery,
     setIsAiOpen,
-    setActiveTab 
+    setActiveTab,
+    selectedCategory 
   } = useApp();
 
   const [activeCategory, setActiveCategory] = useState<string>('all');
   const [selectedCourse, setSelectedCourse] = useState<Course | null>(null);
+
+  // If a specific category is selected, render the dedicated category view
+  if (selectedCategory) {
+    return <CategoryView />;
+  }
 
   // Filter courses by category and search
   const filteredCourses = courses.filter((c) => {
@@ -78,7 +86,10 @@ export const HomeView: React.FC = () => {
       {/* 1. Promotional Banner */}
       <HeroBanner />
 
-      {/* 2. Quick Access Cards */}
+      {/* 2. Horizontal Explore by Category Strip */}
+      <CategoryExploreStrip />
+
+      {/* 3. Quick Access Cards */}
       <QuickAccess 
         onOpenBookmarks={() => setActiveTab('learning')}
         onOpenDownloads={() => setActiveTab('profile')}

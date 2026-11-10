@@ -15,6 +15,9 @@ import { AliferAiModal } from './components/ai/AliferAiModal';
 import { AuthModal } from './components/auth/AuthModal';
 import { OnboardingModal } from './components/auth/OnboardingModal';
 import { AdminPortal } from './components/admin/AdminPortal';
+import { CategoryAllModal } from './components/category/CategoryAllModal';
+import { FestivalAnnouncementModal } from './components/common/FestivalAnnouncementModal';
+import { CheckoutModal } from './components/checkout/CheckoutModal';
 
 const MainAppContent: React.FC = () => {
   const { 
@@ -24,7 +27,9 @@ const MainAppContent: React.FC = () => {
     isOnboardingOpen, 
     setIsOnboardingOpen,
     isAdminOpen,
-    setIsAdminOpen 
+    setIsAdminOpen,
+    activeCheckoutCourse,
+    closeCheckout
   } = useApp();
 
   return (
@@ -51,6 +56,11 @@ const MainAppContent: React.FC = () => {
       <AliferAiModal />
       <AuthModal isOpen={isAuthOpen} onClose={() => setIsAuthOpen(false)} />
       <OnboardingModal isOpen={isOnboardingOpen} onClose={() => setIsOnboardingOpen(false)} />
+      <CategoryAllModal />
+      <FestivalAnnouncementModal />
+      {activeCheckoutCourse && (
+        <CheckoutModal course={activeCheckoutCourse} onClose={closeCheckout} />
+      )}
       {isAdminOpen && <AdminPortal onClose={() => setIsAdminOpen(false)} />}
     </div>
   );

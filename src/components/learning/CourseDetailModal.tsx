@@ -14,7 +14,8 @@ import {
   Sparkles, 
   Award, 
   ShieldCheck,
-  Share2
+  Share2,
+  ChevronRight
 } from 'lucide-react';
 
 interface CourseDetailModalProps {
@@ -23,7 +24,7 @@ interface CourseDetailModalProps {
 }
 
 export const CourseDetailModal: React.FC<CourseDetailModalProps> = ({ course, onClose }) => {
-  const { enrollInCourse, openLecture, openPdfViewer, addDownload } = useApp();
+  const { openCheckout, openLecture, openPdfViewer, addDownload } = useApp();
   const [expandedModules, setExpandedModules] = useState<Record<string, boolean>>({
     'mod-1': true,
     'mod-py-1': true,
@@ -36,7 +37,8 @@ export const CourseDetailModal: React.FC<CourseDetailModalProps> = ({ course, on
   };
 
   const handleEnroll = () => {
-    enrollInCourse(course.id);
+    openCheckout(course);
+    onClose();
   };
 
   return (
@@ -66,7 +68,7 @@ export const CourseDetailModal: React.FC<CourseDetailModalProps> = ({ course, on
               <img
                 src={course.thumbnailUrl || BRAND_ASSETS.teacherPortrait}
                 alt={course.title}
-                className="w-full h-full object-cover object-top"
+                className="w-full h-full object-cover object-center"
                 referrerPolicy="no-referrer"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent flex items-end p-3">
@@ -84,6 +86,22 @@ export const CourseDetailModal: React.FC<CourseDetailModalProps> = ({ course, on
               <p className="text-xs text-zinc-300 leading-relaxed">
                 {course.description}
               </p>
+
+              {/* Prominent Course Duration Lockup (Strict User Requirement) */}
+              <div className="flex flex-wrap items-center gap-2 pt-1">
+                <div className="flex items-center gap-1.5 px-3 py-1 rounded-lg bg-amber-500/15 border border-amber-500/40 text-amber-300 text-xs font-bold">
+                  <Clock className="w-3.5 h-3.5 text-amber-400" />
+                  <span>Duration: {course.duration || '1 Year'}</span>
+                </div>
+                {course.startDate && course.endDate && (
+                  <div className="flex items-center gap-1 px-2.5 py-1 rounded-lg bg-zinc-900 border border-zinc-800 text-zinc-300 text-[11px] font-medium">
+                    <span>Period: {course.startDate} – {course.endDate}</span>
+                  </div>
+                )}
+                <span className="text-[11px] text-zinc-400">
+                  · {course.totalLectures} Lectures · {course.totalNotes} Notes
+                </span>
+              </div>
 
               {/* Instructor Lockup */}
               <div className="flex items-center gap-3 pt-2">
@@ -129,9 +147,10 @@ export const CourseDetailModal: React.FC<CourseDetailModalProps> = ({ course, on
                 ) : (
                   <button
                     onClick={handleEnroll}
-                    className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-amber-400 to-yellow-500 hover:from-amber-300 hover:to-yellow-400 text-black font-extrabold text-xs shadow-lg shadow-amber-500/20 active:scale-95 transition-all"
+                    className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-amber-400 to-yellow-500 hover:from-amber-300 hover:to-yellow-400 text-black font-extrabold text-xs shadow-lg shadow-amber-500/20 active:scale-95 transition-all flex items-center gap-1.5"
                   >
-                    Enroll Now · Instant Access
+                    <span>Enroll Now · Instant Access</span>
+                    <ChevronRight className="w-4 h-4" />
                   </button>
                 )}
               </div>

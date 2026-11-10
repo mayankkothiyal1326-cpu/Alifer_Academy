@@ -44,9 +44,9 @@ export const CourseGrid: React.FC<CourseGridProps> = ({ courses, onSelectCourse 
                 </div>
 
                 <div className="flex items-center justify-between text-[10px] text-zinc-300">
-                  <span className="flex items-center gap-1">
+                  <span className="flex items-center gap-1 font-semibold text-amber-300">
                     <Clock className="w-3 h-3 text-amber-400" />
-                    <span className="tabular-nums">{course.durationHours}h</span>
+                    <span>{course.duration || '1 Year'}</span>
                   </span>
                   <span className="flex items-center gap-1 text-amber-400 font-semibold">
                     <Star className="w-3 h-3 fill-amber-400" />
